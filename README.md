@@ -1,6 +1,6 @@
 Ansible role to create docker container with Postgres
 
-### Requirements
+## Requirements
 
 Tested on:
 * Ubuntu 16.04
@@ -15,30 +15,11 @@ Expected requirements:
 * docker-py >= 1.7.0
 * Docker API >= 1.20
 
-### Configurable parameters and defaults
-```
-postgres_docker_image: postgres
-postgres_docker_image_tag: 1.6
-postgres_container_name: postgres
-postgres_port: 5432
+## Configurable parameters and defaults
 
-postgres_service_name: postgresql
-postgres_uid: 19192
+See [defaults](defaults/main.yml)
 
-postgres_path_postfix: "{{ postgres_service_name.startswith('postgres') | ternary('','postgres-') }}{{ postgres_service_name }}"
-postgres_data_dir: "/data/{{postgres_path_postfix}}"
-postgres_logs_dir: "/var/log/{{postgres_path_postfix}}"
-
-postgres_memory_mb: 4096
-postgres_memory_swap: "{{postgres_memory_mb}}"
-postgres_cpu_shares: 512
-
-postgres_user: postgres
-postgres_password: 12345678
-postgres_database: default
-```
-
-### Example Playbook
+## Example Playbook
 
 `pg.yml`
 ```
@@ -52,3 +33,9 @@ Create and Postgres service with:
 
 Stop and remove Postgres service with:
 `sudo ansible-playbook pg.yml --extra-vars "uninstall=true"`
+
+## License
+
+[Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0)
+
+This code was developed by me during my work in [SBDA Group](http://sbdagroup.com/)
