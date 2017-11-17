@@ -1,0 +1,31 @@
+---
+
+- name: create data directory for postgres
+  file: path={{ postgres_data_dir }} state=directory
+
+- name: create logs directory for postgres
+  file: path={{ postgres_logs_dir }} state=directory
+
+- name: Pull PostgreSQL image
+  docker_image:
+    name: '{{ postgres_docker_image }}'
+    tag: '{{ postgres_docker_image_tag }}'
+
+- name: postgres:copy service config
+  sudo: yes
+  template:
+    src: systemd/postgres.service.j2
+    dest: /etc/systemd/system/{{postgres_service_name}}.service
+    backup: yes
+  notify: reload postgres service
+
+- name: reload service
+  sudo: yes
+  shell: systemctl daemon-reload
+  tags: systemctl
+
+- name: postgres:enable service
+  sudo: yes
+  service: name={{postgres_service_name}} enabled=yes state=started
+  tags:
+    - check

@@ -1,0 +1,6 @@
+galaxy_info:
+  author: Ivan Lukomskiy
+  description: Create and run docker container with Postgresql
+  company: Rubbles
+
+dependencies: []

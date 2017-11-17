@@ -1,0 +1,6 @@
+---
+
+- name: reload postgres service
+  sudo: yes
+  shell: systemctl daemon-reload
+  notify: restart {{postgres_service_name}} service

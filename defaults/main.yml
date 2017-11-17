@@ -1,0 +1,24 @@
+---
+uninstall: false
+
+postgres_docker_image: postgres
+postgres_docker_image_tag: 9.4
+postgres_container_name: postgres
+postgres_port: 5432
+
+postgres_service_name: postgresql
+postgres_uid: 19192
+
+postgres_path_postfix: "{{ postgres_service_name.startswith('postgres') | ternary('','postgres-') }}{{ postgres_service_name }}"
+postgres_data_dir: "/data/{{postgres_path_postfix}}"
+postgres_logs_dir: "/var/log/{{postgres_path_postfix}}"
+
+postgres_memory_mb: 4096
+postgres_memory_swap: "{{postgres_memory_mb}}"
+postgres_cpu_shares: 512
+postgres_cpu_quota: 50000
+postgres_cpu_period: 100000
+
+postgres_user: postgres
+postgres_password: 12345678
+postgres_database: default

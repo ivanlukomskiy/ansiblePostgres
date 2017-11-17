@@ -1,0 +1,7 @@
+---
+
+- include: install.yml
+  when: not uninstall
+
+- include: uninstall.yml
+  when: uninstall

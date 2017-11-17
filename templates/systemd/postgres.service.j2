@@ -1,0 +1,28 @@
+[Unit]
+Description=PostgreSQL container
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+ExecStartPre=-/usr/bin/docker rm {{postgres_container_name}}
+ExecStart=/usr/bin/docker run --rm \
+	--memory {{ postgres_memory_mb }}m \
+	--memory-swap {{ postgres_memory_swap }}m \
+	--cpu-shares {{ postgres_cpu_shares }} \
+	--cpu-quota {{ postgres_cpu_quota }} \
+	--cpu-period {{ postgres_cpu_period }} \
+	-v {{ postgres_data_dir }}:{{ postgres_data_dir }} \
+	-v {{ postgres_logs_dir }}:{{ postgres_logs_dir }} \
+	-p {{ postgres_port }}:5432 \
+	-e SERVICE_NAME={{postgres_service_name}} \
+	-e PGDATA={{postgres_data_dir}} \
+	-e POSTGRES_USER={{postgres_user}} \
+	-e POSTGRES_PASSWORD={{postgres_password}} \
+	-e POSTGRES_DB={{postgres_database}} \
+	--name {{postgres_container_name}} \
+	{{postgres_docker_image}}:{{postgres_docker_image_tag}}
+ExecStop=/usr/bin/docker stop -t 10 {{postgres_container_name}}
+
+[Install]
+WantedBy=multi-user.target
